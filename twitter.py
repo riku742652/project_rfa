@@ -32,11 +32,11 @@ def getTweetUrl(now):
     if res.status_code == 200:
         data = json.loads(res.text)
         tweet_time = convertToDate(data[0]['created_at'])
-        is_media = [True if data[0].get("extended_entities") else False]
+        yesterday =  now - datetime.timedelta(days=1)
+        is_media = True if data[0].get("extended_entities") else False
 
-        # TODO ツイート時間が今日かつ画像付きツイートならURLを返す
-        if True:
-        # if tweet_time > now and is_media:
+        # ツイート時間が実行日前日より後かつ画像付きツイートならURLを返す
+        if  tweet_time > yesterday and is_media:
             return data[0]["extended_entities"]["media"][0]["media_url"]
         else:
             print("didn't do an RFA on {}.".format(now.strftime("%Y/%m/%d")))
